@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UserDataFetcher implements DataFetcher<User> {
+public class UserDataByIdFetcher implements DataFetcher<User> {
     @Autowired
     private UserRepository userRepository;
 
@@ -17,6 +17,6 @@ public class UserDataFetcher implements DataFetcher<User> {
 
         String id = environment.getArgument("id");
         System.out.println(id);
-       return userRepository.findById(Long.parseLong(id)).orElse(null);
+        return userRepository.findById(Long.parseLong(id)).orElse(null);
     }
 }

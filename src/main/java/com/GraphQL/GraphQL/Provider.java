@@ -2,7 +2,8 @@ package com.GraphQL.GraphQL;
 
 import com.GraphQL.GraphQL.DataFeacher.AllUsersDataFetcher;
 import com.GraphQL.GraphQL.DataFeacher.CreateUserDataFetcher;
-import com.GraphQL.GraphQL.DataFeacher.UserDataFetcher;
+import com.GraphQL.GraphQL.DataFeacher.UserDataByIdFetcher;
+import com.GraphQL.GraphQL.DataFeacher.UserDataFilterFetcher;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -24,10 +25,13 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class Provider {
     @Autowired
-    UserDataFetcher userDataFetcher;
+    UserDataFilterFetcher userDataFilterFetcher;
 
     @Autowired
     CreateUserDataFetcher createUserDataFetcher;
+
+    @Autowired
+    UserDataByIdFetcher userDataByIdFetcher;
 
     @Autowired
     AllUsersDataFetcher allUsersDataFetcher;
@@ -50,10 +54,11 @@ public class Provider {
     private RuntimeWiring buildRuntimeWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type("Query", typeWiring -> typeWiring
-                        .dataFetcher("getUser", userDataFetcher)
-                        .dataFetcher("getAllUsers", allUsersDataFetcher))
+                  .dataFetcher("getUsersByFilter", userDataFilterFetcher)
+                  .dataFetcher("getUserById", userDataByIdFetcher)
+                  .dataFetcher("getAllUsers", allUsersDataFetcher))
                 .type("Mutation", typeWiring -> typeWiring
-                        .dataFetcher("createUser", createUserDataFetcher))
+                  .dataFetcher("createUser", createUserDataFetcher))
                 .build();
     }
 

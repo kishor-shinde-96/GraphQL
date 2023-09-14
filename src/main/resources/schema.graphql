@@ -1,6 +1,12 @@
 
 type Query {
-    getUser(id: ID!): User
+    getUsersByFilter(
+        username: String
+        email: String
+        address: String
+        phone: String
+    ): [User]
+    getUserById(id: ID!): User
     getAllUsers: [User]
 }
 
